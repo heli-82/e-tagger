@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://bek53q0m83jlr"]
+
+[ext_resource type="Script" path="res://scripts/picture.gd" id="1_fbbag"]
+[ext_resource type="Texture2D" uid="uid://dog5j1sdewofy" path="res://durante_blurred.png" id="2_hlild"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7s17f"]
+bg_color = Color(0.818276, 0.852909, 0.886065, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[node name="Picture" type="Control"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 200.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("1_fbbag")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7s17f")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(194, 194)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_hlild")
+expand_mode = 1
+stretch_mode = 6

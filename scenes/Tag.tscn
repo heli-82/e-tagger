@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4gkrcb6osw4o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_10865"]
+bg_color = Color(0.117647, 0.117647, 0.156863, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[node name="Tag" type="Control"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 3
+anchor_right = 0.0260417
+anchor_bottom = 0.0462963
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 30.0
+color = Color(0.952941, 0.705882, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_10865")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "test_tag"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
