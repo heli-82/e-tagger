@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bckq43u5req7k"]
+[gd_scene load_steps=18 format=3 uid="uid://bckq43u5req7k"]
 
 [ext_resource type="Script" path="res://scripts/tagger.gd" id="1_2hyqj"]
 [ext_resource type="Script" path="res://scripts/v_box_container.gd" id="2_f2ao5"]
 [ext_resource type="Script" path="res://scripts/grid_container.gd" id="3_os3bi"]
 [ext_resource type="Shader" path="res://paint.gdshader" id="3_yxe88"]
 [ext_resource type="Shader" path="res://scripts/crt.gdshader" id="4_yu6y6"]
+[ext_resource type="Script" path="res://scenes/v_flow_container.gd" id="5_nc4gm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ulrr"]
 bg_color = Color(0.117647, 0.117647, 0.156863, 1)
@@ -26,6 +27,13 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
+
+[sub_resource type="InputEventKey" id="InputEventKey_xgpcd"]
+ctrl_pressed = true
+keycode = 79
+
+[sub_resource type="Shortcut" id="Shortcut_lxv5t"]
+events = [SubResource("InputEventKey_xgpcd")]
 
 [sub_resource type="GDScript" id="GDScript_jck5q"]
 script/source = "extends Button
@@ -55,6 +63,12 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljlws"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 0.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jfas5"]
 shader = ExtResource("4_yu6y6")
 shader_parameter/overlay = true
@@ -67,12 +81,12 @@ shader_parameter/clip_warp = false
 
 [node name="Tagger" type="Control"]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2hyqj")
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -104,33 +118,40 @@ layout_mode = 2
 theme_override_constants/separation = 5
 
 [node name="TagContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
+custom_minimum_size = Vector2(156, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_d45y4")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 theme = SubResource("Theme_fpf8h")
 script = ExtResource("2_f2ao5")
 
-[node name="Open" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
+[node name="Open" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
 action_mode = 0
+shortcut = SubResource("Shortcut_lxv5t")
 text = "Open"
 script = SubResource("GDScript_jck5q")
 
-[node name="FileDialog" type="FileDialog" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open"]
+[node name="FileDialog" type="FileDialog" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open"]
 size = Vector2i(303, 180)
 
-[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
@@ -160,6 +181,8 @@ layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ljlws")
+horizontal_scroll_mode = 0
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer"]
 layout_direction = 2
@@ -168,6 +191,12 @@ theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
 columns = 6
 script = ExtResource("3_os3bi")
+
+[node name="VFlowContainer" type="VFlowContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer"]
+visible = false
+layout_mode = 2
+last_wrap_alignment = 1
+script = ExtResource("5_nc4gm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -180,5 +209,5 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
-[connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
+[connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]

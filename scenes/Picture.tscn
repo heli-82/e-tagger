@@ -5,10 +5,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7s17f"]
 bg_color = Color(0.864281, 0.890417, 0.915485, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(0.761827, 0.808082, 0.847545, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
@@ -26,10 +26,10 @@ anchor_left = -0.064
 anchor_top = -0.109
 anchor_right = 0.064
 anchor_bottom = 0.109
-offset_left = -0.479996
-offset_top = 0.300003
-offset_right = 0.479996
-offset_bottom = -0.300003
+offset_left = -0.199997
+offset_top = -0.700005
+offset_right = 1.2
+offset_bottom = -0.299995
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(76, 76)
@@ -61,8 +61,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -0.000518799
-offset_bottom = -0.000106812
+offset_right = -1.28
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7s17f")
 
@@ -92,5 +93,9 @@ visible = false
 position = Vector2(76, 76)
 shape = SubResource("RectangleShape2D_tqkpt")
 
+[connection signal="deselect" from="." to="." method="_on_deselect"]
+[connection signal="deselect_all" from="." to="." method="_on_deselect_all"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="select" from="." to="." method="_on_select"]
+[connection signal="select_one" from="." to="." method="_on_select_one"]

@@ -9,14 +9,13 @@ corner_radius_bottom_left = 2
 anti_aliasing = false
 
 [node name="Tag" type="Control"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(150, 30)
 layout_mode = 3
-anchor_right = 0.0260417
-anchor_bottom = 0.0462963
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 0.127
+anchor_bottom = 0.043
+offset_right = 0.139999
+offset_bottom = -0.1
 size_flags_horizontal = 3
-metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

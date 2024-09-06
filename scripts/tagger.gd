@@ -6,8 +6,10 @@ var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
 @export var is_crt_enabled: bool = true
 
 @onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer/GridContainer
+#@onready var grid_container: VFlowContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer/VFlowContainer
 #@onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/GridContainer
-@onready var file_dialog: FileDialog = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog
+@onready var v_box_container: VBoxContainer = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer
+@onready var file_dialog: FileDialog = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open/FileDialog
 
 func get_all_files(path: String) -> Array:
 	var result = []
