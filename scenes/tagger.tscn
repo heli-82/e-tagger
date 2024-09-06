@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bckq43u5req7k"]
+[gd_scene load_steps=14 format=3 uid="uid://bckq43u5req7k"]
 
 [ext_resource type="Script" path="res://scripts/tagger.gd" id="1_2hyqj"]
 [ext_resource type="Script" path="res://scripts/v_box_container.gd" id="2_f2ao5"]
 [ext_resource type="Script" path="res://scripts/grid_container.gd" id="3_os3bi"]
+[ext_resource type="Shader" path="res://paint.gdshader" id="3_yxe88"]
 [ext_resource type="Shader" path="res://scripts/crt.gdshader" id="4_yu6y6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ulrr"]
@@ -20,6 +21,34 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54enh"]
 bg_color = Color(0.0736929, 0.0736881, 0.103057, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[sub_resource type="GDScript" id="GDScript_jck5q"]
+script/source = "extends Button
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n052w"]
+shader = ExtResource("3_yxe88")
+shader_parameter/polar_coordinates = false
+shader_parameter/polar_center = Vector2(0.5, 0.5)
+shader_parameter/polar_zoom = 1.0
+shader_parameter/polar_repeat = 1.0
+shader_parameter/spin_rotation = 1.65
+shader_parameter/spin_speed = 1.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.164706, 0.164706, 0.211765, 1)
+shader_parameter/colour_2 = Color(0.517647, 0.4, 0.556863, 1)
+shader_parameter/colour_3 = Color(0.117647, 0.117647, 0.156863, 1)
+shader_parameter/contrast = 1.0
+shader_parameter/spin_amount = 0.36
+shader_parameter/pixel_filter = 4000.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3tcea"]
+bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -91,12 +120,15 @@ layout_mode = 2
 theme = SubResource("Theme_fpf8h")
 script = ExtResource("2_f2ao5")
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
-visible = false
+[node name="Open" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
-text = "tag1
-"
+action_mode = 0
+text = "Open"
+script = SubResource("GDScript_jck5q")
+
+[node name="FileDialog" type="FileDialog" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open"]
+size = Vector2i(303, 180)
 
 [node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
 visible = false
@@ -110,6 +142,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_d45y4")
 
+[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer"]
+material = SubResource("ShaderMaterial_n052w")
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3tcea")
+
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
@@ -121,9 +158,15 @@ theme_override_constants/margin_bottom = 3
 visible = false
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer"]
 layout_mode = 2
-columns = 5
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer"]
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 6
 script = ExtResource("3_os3bi")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -135,3 +178,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
+[connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]

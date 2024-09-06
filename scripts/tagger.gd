@@ -1,8 +1,13 @@
 extends Control
 
-#var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
 var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
-# Called when the node enters the scene tree for the first time.
+
+@export var is_paint_enabled: bool = true
+@export var is_crt_enabled: bool = true
+
+@onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer/GridContainer
+#@onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/GridContainer
+@onready var file_dialog: FileDialog = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog
 
 func get_all_files(path: String) -> Array:
 	var result = []
@@ -19,9 +24,24 @@ func get_all_files(path: String) -> Array:
 	
 	return result
 
-@onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/GridContainer
 
 func _ready() -> void:
+	if !is_paint_enabled:
+		$PanelContainer/MarginContainer/HBoxContainer/PictureContainer/Panel.hide()
+	if !is_crt_enabled:
+		$CanvasLayer/ColorRect.hide()
 	var files = get_all_files(pic_path)
-	grid_container.drop()
-	grid_container.set_pictures(files)
+	grid_container.change(files)
+
+
+func _on_open_pressed() -> void:
+	file_dialog.use_native_dialog = true
+	file_dialog.add_filter("Directory")
+	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	file_dialog.popup()
+
+
+func _on_file_dialog_dir_selected(dir: String) -> void:
+	pic_path = dir
+	var files = get_all_files(pic_path)
+	grid_container.change(files)

@@ -1,45 +1,96 @@
-[gd_scene load_steps=4 format=3 uid="uid://bek53q0m83jlr"]
+[gd_scene load_steps=5 format=3 uid="uid://bek53q0m83jlr"]
 
 [ext_resource type="Script" path="res://scripts/picture.gd" id="1_fbbag"]
 [ext_resource type="Texture2D" uid="uid://dog5j1sdewofy" path="res://durante_blurred.png" id="2_hlild"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7s17f"]
-bg_color = Color(0.818276, 0.852909, 0.886065, 1)
+bg_color = Color(0.864281, 0.890417, 0.915485, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.761827, 0.808082, 0.847545, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tqkpt"]
+size = Vector2(152, 152)
+
 [node name="Picture" type="Control"]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(152, 152)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 200.0
-offset_bottom = 200.0
+anchor_left = -0.064
+anchor_top = -0.109
+anchor_right = 0.064
+anchor_bottom = 0.109
+offset_left = -0.479996
+offset_top = 0.300003
+offset_right = 0.479996
+offset_bottom = -0.300003
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(76, 76)
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_default_cursor_shape = 2
 script = ExtResource("1_fbbag")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(200, 100)
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="Control" type="Control" parent="SubViewportContainer/SubViewport"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.000518799
+offset_bottom = -0.000106812
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7s17f")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer"]
-custom_minimum_size = Vector2(194, 194)
+custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
 texture = ExtResource("2_hlild")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(76, 76)
+shape = SubResource("RectangleShape2D_tqkpt")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
