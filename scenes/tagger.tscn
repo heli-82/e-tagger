@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scripts/grid_container.gd" id="3_os3bi"]
 [ext_resource type="Shader" path="res://paint.gdshader" id="3_yxe88"]
 [ext_resource type="Shader" path="res://scripts/crt.gdshader" id="4_yu6y6"]
-[ext_resource type="Script" path="res://scenes/v_flow_container.gd" id="5_nc4gm"]
+[ext_resource type="Script" path="res://scripts/v_flow_container.gd" id="5_nc4gm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ulrr"]
 bg_color = Color(0.117647, 0.117647, 0.156863, 1)
@@ -66,7 +66,7 @@ anti_aliasing = false
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljlws"]
 content_margin_left = 20.0
 content_margin_top = 20.0
-content_margin_right = 20.0
+content_margin_right = 0.0
 content_margin_bottom = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jfas5"]
@@ -81,6 +81,7 @@ shader_parameter/clip_warp = false
 
 [node name="Tagger" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -133,6 +134,8 @@ theme_override_constants/margin_bottom = 3
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
@@ -198,6 +201,8 @@ layout_mode = 2
 last_wrap_alignment = 1
 script = ExtResource("5_nc4gm")
 
+[node name="CopyLayer" type="CanvasLayer" parent="."]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
@@ -209,5 +214,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[connection signal="destruct_points" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_destruct_points"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
 [connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]

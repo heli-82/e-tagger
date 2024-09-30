@@ -6,6 +6,7 @@ var picture_path: String = ""
 var is_available: bool = true
 var is_hovered: bool = false
 var is_selected: bool = false
+var is_active: bool = true
 
 
 var default_color: Color = Color("#dce3e9")
@@ -13,6 +14,7 @@ var default_border_color: Color = Color("#c2ced8")
 var selected_color: Color = Color("#b193ba")
 var selected_border_color: Color = Color("#84668e")
 
+signal despawn
 signal select
 signal select_one
 signal deselect
@@ -21,10 +23,20 @@ signal deselect_all
 @onready var texture_rect: TextureRect = $PanelContainer/MarginContainer/TextureRect
 @onready var panel_container: PanelContainer = $PanelContainer
 
+
+
 func set_picture(path: String) -> void:
 	picture_path = path
 	var image = Image.new()
 	image.load(picture_path)
+	
+	var height = image.get_height()
+	var width = image.get_width()
+	
+	if max(height, width) > 600:
+		var k = ceil(max(height, width)/600)
+		image.resize(ceil(width/k), ceil(height/k))
+	image.generate_mipmaps()
 	$PanelContainer/MarginContainer/TextureRect.texture = ImageTexture.create_from_image(image)
 
 
@@ -43,28 +55,20 @@ func _on_mouse_exited() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if is_hovered:
-		if Input.is_action_just_pressed("click"):
-			if !is_selected:
-				if Input.is_action_pressed("ctrl"):
+	if is_active:
+		if is_hovered:
+			if Input.is_action_just_pressed("click"):
+				if !is_selected:
 					select.emit()
 				else:
-					select_one.emit()
-			else:
-				deselect.emit()
+					deselect.emit()
 
-		elif Input.is_action_just_pressed("mmb"):
-			if !is_selected:
-				select.emit()
-			else:
-				deselect.emit()
-
-		elif Input.is_action_just_pressed("rmb"):
+			scale = scale.lerp(Vector2(1.15, 1.15), 16.0 * delta)
+		else:
+			scale = scale.lerp(Vector2(1.0, 1.0), 16.0 * delta)
+		
+	if Input.is_action_just_pressed("rmb"):
 			deselect_all.emit()
-
-		scale = scale.lerp(Vector2(1.2, 1.2), 9.0 * delta)
-	else:
-		scale = scale.lerp(Vector2(1.0, 1.0), 9.0 * delta)
 
 
 func select_pic() -> void:
@@ -97,3 +101,7 @@ func _on_deselect() -> void:
 
 func _on_deselect_all() -> void:
 	Global.clear_selection()
+
+
+func _on_despawn() -> void:
+	$PanelContainer/MarginContainer/TextureRect.free()

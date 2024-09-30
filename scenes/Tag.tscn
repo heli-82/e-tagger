@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4gkrcb6osw4o"]
+[gd_scene load_steps=3 format=3 uid="uid://d4gkrcb6osw4o"]
+
+[ext_resource type="Script" path="res://scripts/tag.gd" id="1_m5ysw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_10865"]
 bg_color = Color(0.117647, 0.117647, 0.156863, 1)
@@ -16,6 +18,7 @@ anchor_bottom = 0.043
 offset_right = 0.139999
 offset_bottom = -0.1
 size_flags_horizontal = 3
+script = ExtResource("1_m5ysw")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -28,11 +31,13 @@ color = Color(0.952941, 0.705882, 1, 1)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_10865")
 metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
 metadata/_edit_use_anchors_ = true
@@ -43,3 +48,5 @@ layout_mode = 2
 text = "test_tag"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -22,21 +22,16 @@ size = Vector2(152, 152)
 [node name="Picture" type="Control"]
 custom_minimum_size = Vector2(152, 152)
 layout_mode = 3
-anchor_left = -0.064
-anchor_top = -0.109
-anchor_right = 0.064
-anchor_bottom = 0.109
-offset_left = -0.199997
-offset_top = -0.700005
-offset_right = 1.2
-offset_bottom = -0.299995
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 0.125
+anchor_bottom = 0.22
+offset_right = -1.75
+offset_bottom = -2.00002
 pivot_offset = Vector2(76, 76)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_default_cursor_shape = 2
 script = ExtResource("1_fbbag")
+metadata/_edit_use_anchors_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 visible = false
@@ -58,10 +53,11 @@ offset_bottom = 40.0
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1.28
+anchors_preset = -1
+anchor_right = 1.013
+anchor_bottom = 1.013
+offset_right = 0.0240021
+offset_bottom = 0.0240021
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -95,6 +91,7 @@ shape = SubResource("RectangleShape2D_tqkpt")
 
 [connection signal="deselect" from="." to="." method="_on_deselect"]
 [connection signal="deselect_all" from="." to="." method="_on_deselect_all"]
+[connection signal="despawn" from="." to="." method="_on_despawn"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="select" from="." to="." method="_on_select"]

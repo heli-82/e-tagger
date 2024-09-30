@@ -1,5 +1,7 @@
 extends Node
 
+enum modes {tagging, selecting}
+var current_mode = modes.selecting
 var selected_pictures := {}
 
 func clear_selection() -> void:
