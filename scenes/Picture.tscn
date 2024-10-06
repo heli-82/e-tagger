@@ -90,7 +90,6 @@ position = Vector2(76, 76)
 shape = SubResource("RectangleShape2D_tqkpt")
 
 [connection signal="deselect" from="." to="." method="_on_deselect"]
-[connection signal="deselect_all" from="." to="." method="_on_deselect_all"]
 [connection signal="despawn" from="." to="." method="_on_despawn"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -13,7 +13,7 @@ func drop() -> void:
 		remove_child(child)
 
 
-func change(paths: Array) -> void:
+func change(paths: Array[String]) -> void:
 	drop()
 	set_pictures(paths)
 
@@ -23,7 +23,7 @@ func set_pictures_parallel(paths: Array) -> void :
 		var thread = Thread.new()
 
 
-func set_pictures(paths: Array) -> void:
+func set_pictures(paths: Array[String]) -> void:
 	for path in paths:
 		var picture = picture_scene.instantiate()
 		picture.set_picture(path)

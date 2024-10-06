@@ -34,12 +34,16 @@ func prepare_tables() -> void:
 func add_img(path: String) -> void:
 	database.insert_row("imgs", {"path": path})
 
-
 func attach_tag(path: String, tag: String) -> void:
 	var tag_id: int = database.select_rows("tags", 'tag_name == "' + tag + '"', ["tag_id"])[0]["tag_id"]
 	add_img(path)
 	var img_id: int = database.select_rows("imgs", 'path == "' + path + '"', ["img_id"])[0]["img_id"]
 	database.insert_row("main", {"tag_id": tag_id, "img_id": img_id})
+
+func deattach_tag(path: String, tag: String) -> void:
+	var tag_id: int = database.select_rows("tags", 'tag_name == "' + tag + '"', ["tag_id"])[0]["tag_id"]
+	var img_id: int = database.select_rows("imgs", 'path == "' + path + '"', ["img_id"])[0]["img_id"]
+	database.delete_rows("main", "where tag_id=%s and img_id=%s" % tag_id % img_id)
 
 
 #creates meta_tags record if it not yet exists
@@ -47,21 +51,22 @@ func add_tag(tag_name: String, color: String = "#1d1d27") -> void:
 	database.insert_row("tags", {"tag_name": tag_name, "color": color})
 
 
-func load_imgs(tag: String) -> void:
+func get_imgs(tag: String) -> Array[String]:
 	var tag_id: int = database.select_rows("tags", 'tag_name == "' + tag + '"', ["tag_id"])[0]["tag_id"]
 	var img_ids: Array[Dictionary] = database.select_rows("main", 'tag_id = ' + '"'+str(tag_id)+'"', ["img_id"])
-	print(img_ids)
+	var img_paths: Array[String] = []
 	for img_id in img_ids:
 		var path: String = database.select_rows("imgs", "img_id = "+str(img_id["img_id"]), ["path"])[0]["path"]
-		print(path)
+		img_paths.append(path)
+	return img_paths
 
-
-func load_tags() -> void:
+func get_tags() -> Array[String]:
 	var tags: Array[Dictionary] = database.select_rows("tags", "", ["tag_name"])
-	print(tags)
+	var tag_names: Array[String] = []
+	for t in tags:
+		tag_names.append(t["tag_name"])
+	return tag_names
 
 
 func _ready() -> void:
 	prepare_tables()
-	load_imgs("sus")
-	load_tags()

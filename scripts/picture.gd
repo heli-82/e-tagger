@@ -18,12 +18,12 @@ signal despawn
 signal select
 signal select_one
 signal deselect
-signal deselect_all
 
 @onready var texture_rect: TextureRect = $PanelContainer/MarginContainer/TextureRect
 @onready var panel_container: PanelContainer = $PanelContainer
 
-
+func get_texture() -> ImageTexture:
+	return $PanelContainer/MarginContainer/TextureRect.texture
 
 func set_picture(path: String) -> void:
 	picture_path = path
@@ -62,14 +62,9 @@ func _physics_process(delta: float) -> void:
 					select.emit()
 				else:
 					deselect.emit()
-
 			scale = scale.lerp(Vector2(1.15, 1.15), 16.0 * delta)
 		else:
 			scale = scale.lerp(Vector2(1.0, 1.0), 16.0 * delta)
-		
-	if Input.is_action_just_pressed("rmb"):
-			deselect_all.emit()
-
 
 func select_pic() -> void:
 	is_selected = true
@@ -98,9 +93,6 @@ func _on_deselect() -> void:
 	deselect_pic()
 	Global.remove_by_key(self)
 
-
-func _on_deselect_all() -> void:
-	Global.clear_selection()
 
 
 func _on_despawn() -> void:

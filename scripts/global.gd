@@ -14,3 +14,9 @@ func add_to_selection(entity: Picture) -> void:
 
 func remove_by_key(key: Picture) -> void:
 	selected_pictures.erase(key)
+
+func get_selected_paths() -> Array[String]:
+	var paths: Array[String] = []
+	for pic in selected_pictures.values():
+		paths.append(pic)
+	return paths

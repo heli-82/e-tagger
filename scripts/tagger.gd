@@ -3,8 +3,8 @@ extends Control
 var point = preload("res://scenes/Point.tscn")
 var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
 
-@export var is_paint_enabled: bool = true
-@export var is_crt_enabled: bool = true
+@export var is_paint_enabled: bool = false
+@export var is_crt_enabled: bool = false
 
 @onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer/GridContainer
 @onready var v_box_container: VBoxContainer = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer
@@ -12,8 +12,8 @@ var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
 
 const supported_formats := ["bmp", "jpg", "jpeg", "png", "tga", "svg", "webp", "exr", "hdr", "ktx", "dds"]
 
-func get_all_files(path: String) -> Array:
-	var result = []
+func get_all_files(path: String) -> Array[String]:
+	var result: Array[String] = []
 	var dir = DirAccess.open(path)
 
 	var files = dir.get_files()
@@ -44,10 +44,8 @@ func _on_open_pressed() -> void:
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
 	file_dialog.popup()
 
-
 func _on_file_dialog_dir_selected(dir: String) -> void:
-	pic_path = dir
-	var files = get_all_files(pic_path)
+	var files: Array[String] = get_all_files(dir)
 	grid_container.change(files)
 
 func _physics_process(_delta: float) -> void:
@@ -57,12 +55,18 @@ func _physics_process(_delta: float) -> void:
 		for pic: Picture in Global.selected_pictures.keys():
 			var copic = point.instantiate()
 			copic.global_position = pic.global_position
-			$CopyLayer.add_child(copic)
-			copic.scale = Vector2(0.0, 0.0)
+			copic.set_texture(pic.get_texture())
+			$CopyLayer/CopyContainer.add_child(copic)
+
 
 func destruct() -> void:
-	for child in $CopyLayer.get_children():
-		$CopyLayer.remove_child(child)
+	for child in $CopyLayer/CopyContainer.get_children():
+		$CopyLayer/CopyContainer.remove_child(child)
 
 func _on_v_box_container_destruct_points() -> void:
 	destruct()
+
+
+func _on_v_box_container_tag_selected(tag: String) -> void:
+	var imgs: Array[String] = Db.get_imgs(tag)
+	grid_container.change(imgs)
