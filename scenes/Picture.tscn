@@ -14,6 +14,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+shadow_color = Color(0.117647, 0.117647, 0.156863, 0.529412)
+shadow_size = 5
 anti_aliasing = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tqkpt"]

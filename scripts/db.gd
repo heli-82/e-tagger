@@ -40,10 +40,12 @@ func attach_tag(path: String, tag: String) -> void:
 	var img_id: int = database.select_rows("imgs", 'path == "' + path + '"', ["img_id"])[0]["img_id"]
 	database.insert_row("main", {"tag_id": tag_id, "img_id": img_id})
 
-func deattach_tag(path: String, tag: String) -> void:
+func detach_tag(path: String, tag: String) -> void:
 	var tag_id: int = database.select_rows("tags", 'tag_name == "' + tag + '"', ["tag_id"])[0]["tag_id"]
 	var img_id: int = database.select_rows("imgs", 'path == "' + path + '"', ["img_id"])[0]["img_id"]
-	database.delete_rows("main", "where tag_id=%s and img_id=%s" % tag_id % img_id)
+	print(tag_id, " ", img_id, " ", path)
+	database.query("DELETE FROM main WHERE tag_id=" + str(tag_id) + " "+ "and img_id=" + str(img_id))
+	#database.delete_rows("main", "where tag_id=%s and img_id=%s" % tag_id % img_id)
 
 
 #creates meta_tags record if it not yet exists
@@ -60,8 +62,12 @@ func get_imgs(tag: String) -> Array[String]:
 		img_paths.append(path)
 	return img_paths
 
+func less_than(a:Dictionary, b:Dictionary) -> bool:
+	return a["tag_id"] < b["tag_id"]
+
 func get_tags() -> Array[String]:
-	var tags: Array[Dictionary] = database.select_rows("tags", "", ["tag_name"])
+	var tags: Array[Dictionary] = database.select_rows("tags", "", ["tag_id", "tag_name"])
+	tags.sort_custom(less_than)
 	var tag_names: Array[String] = []
 	for t in tags:
 		tag_names.append(t["tag_name"])

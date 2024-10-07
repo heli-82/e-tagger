@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://bckq43u5req7k"]
+[gd_scene load_steps=23 format=3 uid="uid://bckq43u5req7k"]
 
 [ext_resource type="Script" path="res://scripts/tagger.gd" id="1_2hyqj"]
 [ext_resource type="Script" path="res://scripts/v_box_container.gd" id="2_f2ao5"]
+[ext_resource type="PackedScene" uid="uid://diujtm5plo40m" path="res://scenes/Clear.tscn" id="3_eunlk"]
 [ext_resource type="Script" path="res://scripts/grid_container.gd" id="3_os3bi"]
 [ext_resource type="Shader" path="res://paint.gdshader" id="3_yxe88"]
+[ext_resource type="PackedScene" uid="uid://cybbnin0tvwh0" path="res://scenes/new_tag_dialog.tscn" id="4_hsx1b"]
 [ext_resource type="Shader" path="res://scripts/crt.gdshader" id="4_yu6y6"]
 [ext_resource type="Script" path="res://scripts/copy_container.gd" id="5_js2el"]
 
@@ -17,8 +19,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
-
-[sub_resource type="Theme" id="Theme_fpf8h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54enh"]
 content_margin_left = 5.0
@@ -41,8 +41,10 @@ corner_radius_bottom_left = 3
 anti_aliasing = false
 
 [sub_resource type="InputEventKey" id="InputEventKey_xgpcd"]
+device = -1
 ctrl_pressed = true
 keycode = 79
+unicode = 111
 
 [sub_resource type="Shortcut" id="Shortcut_lxv5t"]
 events = [SubResource("InputEventKey_xgpcd")]
@@ -50,6 +52,17 @@ events = [SubResource("InputEventKey_xgpcd")]
 [sub_resource type="GDScript" id="GDScript_jck5q"]
 script/source = "extends Button
 "
+
+[sub_resource type="Theme" id="Theme_fpf8h"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_bi2fn"]
+device = -1
+ctrl_pressed = true
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_h47sr"]
+events = [SubResource("InputEventKey_bi2fn")]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n052w"]
 shader = ExtResource("3_yxe88")
@@ -143,18 +156,10 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer"]
-custom_minimum_size = Vector2(150, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer"]
 layout_mode = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer"]
-layout_mode = 2
-theme = SubResource("Theme_fpf8h")
-script = ExtResource("2_f2ao5")
-
-[node name="Open" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Open" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxFlat_54enh")
@@ -167,14 +172,40 @@ text = "Open"
 alignment = 0
 script = SubResource("GDScript_jck5q")
 
-[node name="FileDialog" type="FileDialog" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open"]
+[node name="FileDialog" type="FileDialog" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open"]
 size = Vector2i(303, 180)
 
-[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 582)
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+theme = SubResource("Theme_fpf8h")
+script = ExtResource("2_f2ao5")
+
+[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
 text = "tag2"
+
+[node name="Clear" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_eunlk")]
+layout_mode = 2
+
+[node name="New Tag" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_54enh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3oo1t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_54enh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
+action_mode = 0
+shortcut = SubResource("Shortcut_h47sr")
+text = "New"
+alignment = 0
 
 [node name="PictureContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
@@ -222,6 +253,16 @@ mouse_filter = 2
 columns = 4
 script = ExtResource("5_js2el")
 
+[node name="NewTagDialog" parent="CopyLayer" instance=ExtResource("4_hsx1b")]
+visible = false
+anchor_left = 0.372358
+anchor_top = 0.445714
+anchor_right = 0.629268
+anchor_bottom = 0.555714
+offset_bottom = -3.05176e-05
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
@@ -235,7 +276,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[connection signal="destruct_points" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_destruct_points"]
-[connection signal="tag_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_tag_selected"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
-[connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open" to="." method="_on_open_pressed"]
+[connection signal="dir_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="destruct_points" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_destruct_points"]
+[connection signal="tag_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_tag_selected"]
+[connection signal="reload" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Clear" to="." method="_on_clear_reload"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/New Tag" to="." method="_on_new_tag_pressed"]
+[connection signal="new_tag" from="CopyLayer/NewTagDialog" to="." method="_on_new_tag_dialog_new_tag"]

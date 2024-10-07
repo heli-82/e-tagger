@@ -8,12 +8,13 @@ func set_tag(name: String) -> void:
 	$PanelContainer/MarginContainer/Label.text = tag_name
 
 func drop_pics() -> void:
+	print(Global.get_selected_paths())
 	Global.current_mode = Global.modes.selecting
 	for path in Global.get_selected_paths():
 		Db.attach_tag(path, tag_name)
 		#print(path)
 	get_parent().destruct()
-	pass
+	
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("click"):
@@ -21,3 +22,4 @@ func _on_gui_input(event: InputEvent) -> void:
 			drop_pics()
 		elif Global.current_mode==Global.modes.selecting:
 			get_parent().selected_tag(tag_name)
+		Global.clear_selection()

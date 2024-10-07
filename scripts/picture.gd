@@ -94,6 +94,5 @@ func _on_deselect() -> void:
 	Global.remove_by_key(self)
 
 
-
 func _on_despawn() -> void:
 	$PanelContainer/MarginContainer/TextureRect.free()

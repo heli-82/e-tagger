@@ -7,8 +7,8 @@ var pic_path: String = "/home/heli/Pictures/Wallpapers/persona"
 @export var is_crt_enabled: bool = false
 
 @onready var grid_container: GridContainer = $PanelContainer/MarginContainer/HBoxContainer/PictureContainer/MarginContainer/ScrollContainer/GridContainer
-@onready var v_box_container: VBoxContainer = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer
-@onready var file_dialog: FileDialog = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/ScrollContainer/VBoxContainer/Open/FileDialog
+@onready var v_box_container: VBoxContainer = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer
+@onready var file_dialog: FileDialog = $PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Open/FileDialog
 
 const supported_formats := ["bmp", "jpg", "jpeg", "png", "tga", "svg", "webp", "exr", "hdr", "ktx", "dds"]
 
@@ -39,6 +39,8 @@ func _ready() -> void:
 
 
 func _on_open_pressed() -> void:
+	Global.clear_selection()
+	Global.current_tag_name = ""
 	file_dialog.use_native_dialog = true
 	file_dialog.add_filter("Directory")
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
@@ -49,6 +51,8 @@ func _on_file_dialog_dir_selected(dir: String) -> void:
 	grid_container.change(files)
 
 func _physics_process(_delta: float) -> void:
+	if Input.is_action_just_pressed("export"):
+		Global.create_symlinks(Global.current_tag_name)
 	if Input.is_action_just_released("mmb"):
 		destruct()
 		Global.current_mode = Global.modes.tagging
@@ -63,10 +67,28 @@ func destruct() -> void:
 	for child in $CopyLayer/CopyContainer.get_children():
 		$CopyLayer/CopyContainer.remove_child(child)
 
+
+
 func _on_v_box_container_destruct_points() -> void:
 	destruct()
 
 
 func _on_v_box_container_tag_selected(tag: String) -> void:
+	var imgs: Array[String] = Db.get_imgs(tag)
+	grid_container.change(imgs)
+
+
+func _on_new_tag_dialog_new_tag(name: String) -> void:
+	print(name)
+	Db.add_tag(name)
+	$PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer.set_tags()
+
+
+func _on_new_tag_pressed() -> void:
+	$CopyLayer/NewTagDialog.show()
+	$CopyLayer/NewTagDialog.grab_cursor()
+
+
+func _on_clear_reload(tag: String) -> void:
 	var imgs: Array[String] = Db.get_imgs(tag)
 	grid_container.change(imgs)
