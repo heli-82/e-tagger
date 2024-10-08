@@ -55,14 +55,14 @@ script/source = "extends Button
 
 [sub_resource type="Theme" id="Theme_fpf8h"]
 
-[sub_resource type="InputEventKey" id="InputEventKey_bi2fn"]
+[sub_resource type="InputEventKey" id="InputEventKey_hl6lg"]
 device = -1
 ctrl_pressed = true
-keycode = 78
-unicode = 110
+keycode = 69
+unicode = 101
 
 [sub_resource type="Shortcut" id="Shortcut_h47sr"]
-events = [SubResource("InputEventKey_bi2fn")]
+events = [SubResource("InputEventKey_hl6lg")]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n052w"]
 shader = ExtResource("3_yxe88")
@@ -176,7 +176,7 @@ script = SubResource("GDScript_jck5q")
 size = Vector2i(303, 180)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(150, 582)
+custom_minimum_size = Vector2(150, 548)
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
@@ -194,6 +194,18 @@ text = "tag2"
 
 [node name="Clear" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_eunlk")]
 layout_mode = 2
+
+[node name="Export" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_54enh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3oo1t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_54enh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_54enh")
+action_mode = 0
+shortcut = SubResource("Shortcut_h47sr")
+text = "Export"
+alignment = 0
 
 [node name="New Tag" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 30)
@@ -281,5 +293,6 @@ mouse_filter = 2
 [connection signal="destruct_points" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_destruct_points"]
 [connection signal="tag_selected" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" to="." method="_on_v_box_container_tag_selected"]
 [connection signal="reload" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Clear" to="." method="_on_clear_reload"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/Export" to="." method="_on_export_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/TagContainer/MarginContainer/VBoxContainer/New Tag" to="." method="_on_new_tag_pressed"]
 [connection signal="new_tag" from="CopyLayer/NewTagDialog" to="." method="_on_new_tag_dialog_new_tag"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bek53q0m83jlr"]
 
 [ext_resource type="Script" path="res://scripts/picture.gd" id="1_fbbag"]
-[ext_resource type="Texture2D" uid="uid://dog5j1sdewofy" path="res://durante_blurred.png" id="2_hlild"]
+[ext_resource type="Texture2D" uid="uid://bt0ylewqtkpr6" path="res://icon.svg" id="2_5jo1k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7s17f"]
 bg_color = Color(0.864281, 0.890417, 0.915485, 1)
@@ -79,7 +79,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-texture = ExtResource("2_hlild")
+texture = ExtResource("2_5jo1k")
 expand_mode = 1
 stretch_mode = 6
 

@@ -92,3 +92,8 @@ func _on_new_tag_pressed() -> void:
 func _on_clear_reload(tag: String) -> void:
 	var imgs: Array[String] = Db.get_imgs(tag)
 	grid_container.change(imgs)
+
+
+func _on_export_pressed() -> void:
+	if Global.current_tag_name != "":
+		Global.create_symlinks(Global.current_tag_name)

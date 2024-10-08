@@ -24,4 +24,9 @@ func get_selected_paths() -> Array[String]:
 
 func create_symlinks(tag: String) -> void:
 	var paths: Array[String] = Db.get_imgs(tag)
+	OS.execute("rm", ["-r", "out"])
+	OS.execute("mkdir", ["out"])
+	for path in paths:
+		OS.execute("ln", ["-s", path, "out/"])
+	#OS.execute("ln", ["-s"]);
 	print(paths)
